@@ -4,6 +4,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "build": "electron-builder --windows nsis",
     "dist": "electron-builder --windows nsis"
   },
   "build": {

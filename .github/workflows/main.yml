@@ -10,16 +10,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1
+      - name: Setup Visual Studio Build Tools
+        shell: powershell
+        run: |
+          choco install visualstudio2019buildtools --package-parameters “--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional” -y
 
       - name: Install dependencies
         run: npm install

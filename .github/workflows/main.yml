@@ -1,35 +1,28 @@
-name: Build App
+name: Build Windows Installer
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
 
-      - name: Rebuild native dependencies for Electron
-        run: npm run postinstall
+    - name: Install dependencies
+      run: npm install
 
-      - name: Build Electron app
-        run: npm run dist
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: XavrosApp
-          path: dist/
+    - name: Build installer
+      run: npm run dist

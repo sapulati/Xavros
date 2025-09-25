@@ -6,5 +6,5 @@ contextBridge.exposeInMainWorld('xavrosAPI', {
   listLocalModels: () => ipcRenderer.invoke('list-local-models'),
   newChat: (model) => ipcRenderer.invoke('new-chat', model),
   saveMessage: (chatId, role, content) => ipcRenderer.invoke('save-message', chatId, role, content),
-  getMessages: (chatId) => ipcRenderer.invoke('get-messages', chatId)
+  getMessages: (chatId) => ipcRenderer.invoke('get-messages', chatId)
 });

@@ -4,15 +4,13 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --windows nsis",
-    "dist": "electron-builder --windows nsis",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "electron-builder --windows nsis"
   },
   "build": {
     "appId": "com.xavros.desktop",
     "productName": "Xavros",
     "files": [
-      "**/*"
+      "/*"
     ],
     "directories": {
       "buildResources": "build"
@@ -34,6 +32,6 @@
   },
   "devDependencies": {
     "electron": "^26.0.0",
-    "electron-builder": "^24.6.0"
-  }
+    "electron-builder": "^24.6.0"
+  }
 }

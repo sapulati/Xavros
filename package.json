@@ -5,7 +5,8 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --windows nsis",
-    "dist": "electron-builder --windows nsis"
+    "dist": "electron-builder --windows nsis",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "appId": "com.xavros.desktop",

@@ -1,0 +1,36 @@
+name: Build Xavros App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build app
+        run: npm run build
+
+      - name: Package app (Windows EXE)
+        run: npx electron-builder --win --x64
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: Xavros-Installer
+          path: dist/*.exe

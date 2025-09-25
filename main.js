@@ -20,25 +20,21 @@ function createWindow() {
       nodeIntegration: false
     }
   });
-
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
 app.whenReady().then(() => {
   // create DB folder if not exist
   try { fs.mkdirSync(userData, { recursive: true }); } catch(e){}
-
   // init SQLite
   const db = new sqlite3.Database(dbFile);
   db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS chats (id INTEGER PRIMARY KEY AUTOINCREMENT, model TEXT, timestamp TEXT)`);
-    db.run(`CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, role TEXT, content TEXT)`);
+    db.run(CREATE TABLE IF NOT EXISTS chats (id INTEGER PRIMARY KEY AUTOINCREMENT, model TEXT, timestamp TEXT));
+    db.run(CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, role TEXT, content TEXT));
   });
-
-  // create window
   createWindow();
 
-  // tray (optional)
+  // tray (optional - only if tray icon is provided)
   tray = new Tray(path.join(__dirname, 'renderer', 'tray-icon.png'));
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Open Xavros', click: ()=> { mainWindow.show(); } },
@@ -56,7 +52,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC handlers: select models folder, read config, simple chat save/read
+// IPC handlers
 ipcMain.handle('select-model-folder', async () => {
   const res = await dialog.showOpenDialog({ properties: ['openDirectory'] });
   if (res.canceled) return null;
@@ -107,6 +103,6 @@ ipcMain.handle('get-messages', async (event, chatId) => {
     db.all('SELECT * FROM messages WHERE chat_id = ? ORDER BY id ASC', [chatId], (err, rows) => {
       if (err) reject(err);
       else resolve(rows);
-    });
-  });
+    });
+  });
 });
